@@ -56,68 +56,37 @@ public class Main2 {
             List<Book> books2 = scores;
             Comparator<Book> bookComparator = Comparator.comparingInt(Book::getScore).reversed();
             books2.sort(bookComparator);
-            List<Library> libraries3 = new ArrayList<>();
-            List<Library> libraries4 = new ArrayList<>();
-            int days3 = days;
-            int sumor = 0;
-            int sumor2 = 0;
+
+            int days2 = days;
+            int maxlib = 0;
             for (int i = 0; i <library ; i++) {
                 Library temp = libraries2.get(i);
-                sumor2+=temp.getTotalScore();
-                days3-=temp.getSignUp();
-                for (int j = i+1; j < library-1; j++) {
-                    Library temp2 = libraries2.get(j);
-                    libraries4.add(temp2);
-                    sumor2+=temp2.getTotalScore();
-                    days3-=temp2.getSignUp();
-                    if (days3<=0){ //2674622
-                        if (sumor<sumor2){
-                            sumor = sumor2;
+                days2-=temp.getSignUp();
+                if (days2<=0){
+                    maxlib = i;
+                    break;
+                }
+            }
+            br.write(maxlib + "\n");
 
-                            libraries3 = libraries4;
-                            System.out.println(sumor);
-                            libraries4.clear();
-                            break;
-                        }
-                        sumor2=0;
-                        days3=days;
+            for (int i = 0; i <maxlib ; i++) {
+                Library temp = libraries2.get(i);
+                if (temp.getSignUp()<days){
+//                    System.out.print(temp.getID() + " ");
+                    br.write(temp.getID() + " ");
+                    br.write(temp.getBookCount() + " \n");
+//                    System.out.print(temp.getBookCount() + " \n");
+                    List<Book> aa = temp.getBooks();
+                    for (int j = 0; j <temp.getBookCount() ; j++) {
+//                        System.out.print(aa.get(j)+ " ");
+                        br.write(aa.get(j).getId()+ " ");
+                    }
+//                    System.out.println();
+                    if (i+1 != maxlib){
+                        br.write('\n');
                     }
                 }
-                sumor2=0;
-                days3=days;
             }
-            System.out.println(libraries3.size());
-//            int days2 = days;
-//            int maxlib = 0;
-//            for (int i = 0; i <library ; i++) {
-//                Library temp = libraries2.get(i);
-//                days2-=temp.getSignUp();
-//                if (days2<=0){
-//                    maxlib = i;
-//                    break;
-//                }
-//            }
-//            maxlib = libraries3.size();
-//            br.write(maxlib + "\n");
-//
-//            for (int i = 0; i <maxlib ; i++) {
-//                Library temp = libraries3.get(i);
-//                if (temp.getSignUp()<days){
-////                    System.out.print(temp.getID() + " ");
-//                    br.write(temp.getID() + " ");
-//                    br.write(temp.getBookCount() + " \n");
-////                    System.out.print(temp.getBookCount() + " \n");
-//                    List<Book> aa = temp.getBooks();
-//                    for (int j = 0; j <temp.getBookCount() ; j++) {
-////                        System.out.print(aa.get(j)+ " ");
-//                        br.write(aa.get(j).getId()+ " ");
-//                    }
-////                    System.out.println();
-//                    if (i+1 != maxlib){
-//                        br.write('\n');
-//                    }
-//                }
-//            }
             myReader.close();
             br.close();
         } catch (FileNotFoundException e) {
